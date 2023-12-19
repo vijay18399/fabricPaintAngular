@@ -1,0 +1,49 @@
+<canvas id="fabricCanavs"></canvas>
+<div id="toolPanel">
+  <mat-card class="title">Tools</mat-card>
+  <div class="tools">
+    <mat-card  *ngFor="let x of toolConfig.tools" [class.activetool]="x.toolName == toolService.properties.tool"  (click)="onToolChange('paint','')" class="toolBtn">
+      <img src="assets/images/tools/{{x.image}}" alt="" />
+       <span>{{x.displayName}}</span>
+    </mat-card>
+
+  </div>
+</div>
+
+<div *ngIf="toolService.properties.subtoolProps" id="subtoolPanel">
+  <mat-card  class="title">{{toolService.properties.subtoolProps.subCategoryName}}</mat-card>
+  <div class="brushes">
+    <mat-card  *ngFor="let y of toolService.properties.subtoolProps.subTools"   (click)="onToolChange(toolService.properties.tool,y.pattern)" class="toolBtn">
+      <img [class.small]="y.small" src="assets/brushes/{{y.image}}" alt="" />
+    </mat-card>
+
+  </div>
+</div>
+<mat-card *ngIf="settingMenuOpened" class="settingMenu">
+  <mat-icon class="closeIcon" (click)="openSettingMenu()">close</mat-icon>
+  <div style="padding: 12px">
+    <select
+      #fontFamily
+      (change)="updateFontFamily(fontFamily.value)"
+      [value]="toolService.properties.fontFamily"
+    >
+      <option disabled>Select Font Family</option>
+      <option *ngFor="let ff of fontFamilies">{{ ff }}</option>
+    </select>
+    <div class="stroke">
+      <mat-slider min="1" max="35" step="2">
+        <input
+          #width
+          (change)="updateWidth(width.value)"
+          [value]="toolService.properties.width"
+          matSliderThumb
+        />
+      </mat-slider>
+      <span> {{ toolService.properties.width }}px </span>
+    </div>
+  </div>
+</mat-card>
+
+<!-- <mat-card class="subCategory">
+dxsd
+</mat-card> -->
